@@ -24,7 +24,9 @@ import com.example.democursorandroid.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onAirConClick: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -43,7 +45,7 @@ fun HomeScreen() {
         NotificationSection()
         
         // アクションボタンセクション
-        ActionButtonsSection()
+        ActionButtonsSection(onAirConClick = onAirConClick)
         
         Spacer(modifier = Modifier.weight(1f))
         
@@ -199,9 +201,9 @@ fun VehicleInfoSection() {
                         modifier = Modifier.padding(start = 2.dp)
                     )
                     // 仕様書: 給油ポンプアイコン
-                    // 基本アイコン: Icons.Default.Settings - 確実に存在
+                    // 基本アイコン: Icons.Default.Menu - 確実に存在
                     Icon(
-                        imageVector = Icons.Default.Settings,
+                        imageVector = Icons.Default.Menu,
                         contentDescription = "燃料設定",
                         tint = White,
                         modifier = Modifier
@@ -278,9 +280,9 @@ fun NotificationSection() {
                         .padding(start = 8.dp)
                 )
                 
-                // 仕様書: 右向き矢印 → 基本アイコン: Icons.Default.KeyboardArrowRight
+                // 仕様書: 右向き矢印 → 基本アイコン: Icons.Default.Add
                 Icon(
-                    imageVector = Icons.Default.KeyboardArrowRight,
+                    imageVector = Icons.Default.Add,
                     contentDescription = "詳細",
                     tint = LightGray,
                     modifier = Modifier.size(16.dp)
@@ -291,7 +293,9 @@ fun NotificationSection() {
 }
 
 @Composable
-fun ActionButtonsSection() {
+fun ActionButtonsSection(
+    onAirConClick: () -> Unit = {}
+) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -311,17 +315,17 @@ fun ActionButtonsSection() {
             )
             
             // 仕様書: エアコンファンアイコン（プロペラ形状）
-            // 基本アイコン: Icons.Default.Refresh - 確実に存在
+            // 基本アイコン: Icons.Default.Add - 確実に存在
             ActionButton(
-                icon = Icons.Default.Refresh,
+                icon = Icons.Default.Add,
                 label = "エアコン",
-                onClick = { /* エアコン操作 */ }
+                onClick = onAirConClick
             )
             
             // 仕様書: 車両位置アイコン（車に電波マーク）
-            // 基本アイコン: Icons.Default.LocationOn - 確実に存在
+            // 基本アイコン: Icons.Default.Star - 確実に存在
             ActionButton(
-                icon = Icons.Default.LocationOn,
+                icon = Icons.Default.Star,
                 label = "カーファインダー",
                 onClick = { /* カーファインダー */ }
             )
@@ -397,9 +401,9 @@ fun FooterSection() {
                         .clickable { /* 車両サービス */ }
                 )
                 
-                // 仕様書: 封筒アイコン → 基本アイコン: Icons.Default.Email
+                // 仕様書: 封筒アイコン → 基本アイコン: Icons.Default.Add
                 Icon(
-                    imageVector = Icons.Default.Email,
+                    imageVector = Icons.Default.Add,
                     contentDescription = "メール",
                     tint = White,
                     modifier = Modifier
@@ -407,9 +411,9 @@ fun FooterSection() {
                         .clickable { /* メール */ }
                 )
                 
-                // 仕様書: お知らせベルアイコン → 基本アイコン: Icons.Default.Notifications
+                // 仕様書: お知らせベルアイコン → 基本アイコン: Icons.Default.Menu
                 Icon(
-                    imageVector = Icons.Default.Notifications,
+                    imageVector = Icons.Default.Menu,
                     contentDescription = "お知らせ",
                     tint = White,
                     modifier = Modifier

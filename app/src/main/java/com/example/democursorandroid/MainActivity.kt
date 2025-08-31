@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import com.example.democursorandroid.ui.home.HomeScreen
+import com.example.democursorandroid.navigation.AppNavigation
 import com.example.democursorandroid.ui.theme.DarkBackground
 import com.example.democursorandroid.ui.theme.DemoCursorAndroidTheme
 
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = DarkBackground
                 ) {
-                    HomeScreen()
+                    AppNavigation()
                 }
             }
         }
