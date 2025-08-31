@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.democursorandroid.ui.theme.*
 import kotlinx.coroutines.delay
 
@@ -32,6 +33,8 @@ enum class AirConState {
 
 /**
  * エアコン画面のメインコンポーザブル
+ *
+ * ViewModelを使用してビジネスロジックを分離
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,30 +42,11 @@ fun AirConScreen(
     onBackClick: () -> Unit = {},
     onHelpClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
-    onNotificationSettingsClick: () -> Unit = {}
+    onNotificationSettingsClick: () -> Unit = {},
+    viewModel: AirConditionerViewModel = viewModel()
 ) {
-    var currentState by remember { mutableStateOf(AirConState.INITIAL) }
-    var remainingTime by remember { mutableStateOf(9) }
-    
-    // リクエスト中から完了への自動遷移
-    LaunchedEffect(currentState) {
-        if (currentState == AirConState.REQUESTING) {
-            delay(4000) // 4秒後に完了画面へ遷移
-            currentState = AirConState.COMPLETED
-        }
-    }
-    
-    // 完了画面での残り時間カウントダウン
-    LaunchedEffect(currentState, remainingTime) {
-        if (currentState == AirConState.COMPLETED && remainingTime > 0) {
-            delay(60000) // 1分間隔で更新
-            remainingTime--
-            if (remainingTime == 0) {
-                currentState = AirConState.INITIAL
-                remainingTime = 9
-            }
-        }
-    }
+    val currentState by viewModel.currentState.collectAsState()
+    val remainingTime by viewModel.remainingTime.collectAsState()
     
     Column(
         modifier = Modifier
@@ -80,7 +64,7 @@ fun AirConScreen(
         when (currentState) {
             AirConState.INITIAL -> {
                 AirConInitialContent(
-                    onStartClick = { currentState = AirConState.REQUESTING },
+                    onStartClick = { viewModel.startAirConditioner() },
                     onSettingsClick = onSettingsClick,
                     onNotificationSettingsClick = onNotificationSettingsClick
                 )
@@ -93,10 +77,7 @@ fun AirConScreen(
             AirConState.COMPLETED -> {
                 AirConCompletedContent(
                     remainingTime = remainingTime,
-                    onStopClick = { 
-                        currentState = AirConState.INITIAL
-                        remainingTime = 9
-                    },
+                    onStopClick = { viewModel.stopAirConditioner() },
                     onNotificationSettingsClick = onNotificationSettingsClick
                 )
             }
