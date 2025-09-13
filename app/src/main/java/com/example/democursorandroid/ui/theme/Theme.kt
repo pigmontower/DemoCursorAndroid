@@ -11,10 +11,18 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+// 車両アプリ専用ダークテーマ（仕様書に基づく）
+private val VehicleAppDarkColorScheme = darkColorScheme(
+    primary = White,
+    secondary = LightGray,
+    tertiary = CarRed,
+    background = DarkBackground,
+    surface = DarkSurface,
+    onPrimary = DarkBackground,
+    onSecondary = White,
+    onTertiary = White,
+    onBackground = White,
+    onSurface = White
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -46,7 +54,7 @@ fun DemoCursorAndroidTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
+        darkTheme -> VehicleAppDarkColorScheme
         else -> LightColorScheme
     }
 
