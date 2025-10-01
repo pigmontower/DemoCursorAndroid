@@ -23,7 +23,9 @@ import com.example.democursorandroid.R
 import com.example.democursorandroid.ui.theme.DemoCursorAndroidTheme
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onNavigateToAirConditioner: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,7 +47,9 @@ fun HomeScreen() {
         WarningMessage()
         
         // リモートサービス
-        RemoteServices()
+        RemoteServices(
+            onNavigateToAirConditioner = onNavigateToAirConditioner
+        )
         
         Spacer(modifier = Modifier.weight(1f))
         
@@ -290,7 +294,9 @@ fun WarningMessage() {
 }
 
 @Composable
-fun RemoteServices() {
+fun RemoteServices(
+    onNavigateToAirConditioner: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -322,7 +328,7 @@ fun RemoteServices() {
             RemoteServiceButton(
                 icon = Icons.Default.Add,
                 label = "エアコン",
-                onClick = { /* エアコン制御 */ }
+                onClick = onNavigateToAirConditioner
             )
             
             // カーファインダーボタン
